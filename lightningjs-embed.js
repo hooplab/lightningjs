@@ -161,8 +161,10 @@ window.lightningjs || (function(modules){
                         innerFrame[srcAttr] = domainSrc + "void(0);"
                     }
 
-                    // Set the HTML of the iframe. In IE 6, the document.domain from the iframe src hasn't had time to 
-                    // "settle", so trying to access the contentDocument will throw an error. Luckily, in IE 7 we can 
+                    // Set a global variable `__namespace__` on the iframe document with the namspace of the module. This
+                    // makes it possible to anonymously provide a module.
+                    innerFrame[contentWindow]["__namespace__"] = namespace;
+
                     // finish writing the html with the iframe src without preventing the page from onloading
                     try {
                         var frameDocument = innerFrame[contentWindow][documentString];

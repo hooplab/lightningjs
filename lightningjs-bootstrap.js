@@ -11,6 +11,13 @@ window.lightningjs || (function(window, parentLightningjs){
     }
     innerLightningjs.require = parentLightningjs.require;
     innerLightningjs.provide = function(ns, api) {
+        // if the first argument is a an object, assume the user is providing
+        // the module anonymously, and use the global `__namespace__` variable
+        // set by the embed script.
+        if (typeof ns === "object" && !!ns) {
+            api = ns;
+            ns = window.__namespace__;
+        }
 
         // in case we are calling provide() without having ever require()d it,
         // make sure that we create the default callstack, etc
